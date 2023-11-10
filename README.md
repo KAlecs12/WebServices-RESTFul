@@ -8,8 +8,6 @@ Cette API permet de gérer une collection de films. Elle offre des fonctionnalit
 
 Avant de commencer, assurez-vous que vous avez Node.js (version XYZ ou supérieure) et npm installés sur votre machine.
 
-Clonage du dépôt
-
 ### Clonez le dépôt du projet en utilisant la commande suivante :
 
 `git clone [URL_DU_DEPOT]`
