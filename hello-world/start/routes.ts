@@ -24,7 +24,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 Route.get('/films', 'FilmsController.index')
-// Route.get('/films/:id', 'FilmsController.show');
+Route.get('/films/id/:id', 'FilmsController.show');
 Route.get('/films/:name', 'FilmsController.findByName');
 Route.post('/films', 'FilmsController.create');
 Route.patch('/films/:id', 'FilmsController.update');

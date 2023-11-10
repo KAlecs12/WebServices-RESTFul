@@ -3,13 +3,11 @@ import Film from "App/Models/Film";
 const xml2js = require('xml2js');
 
 export default class FilmsController {
-  /**
-   * Génère une réponse en JSON ou XML en fonction du header 'Accept'.
-   */
-  private async generateResponse({ request, response, data, status = 200 }) {
-    const acceptHeader = request.header('Accept');
 
-    if (acceptHeader && acceptHeader.includes('application/xml')) {
+  private async generateResponse({ request, response, data, status = 200 }) {
+    const contentType = request.is(['json', 'xml']);
+
+    if (contentType === 'xml') {
       const builder = new xml2js.Builder();
       const xml = builder.buildObject(data);
 
@@ -17,11 +15,25 @@ export default class FilmsController {
       response.status(status);
       return response.send(xml);
     } else {
+      // Par défaut, renvoie une réponse JSON
       response.header('Content-Type', 'application/json');
       response.status(status);
       return response.json(data);
     }
   }
+
+  public async index({ response, request }: HttpContextContract) {
+    const films = await Film.all();
+    return this.generateResponse({ request, response, data: films });  }
+
+  // public async show({ params, response }: HttpContextContract) {
+  //   const film = await Film.find(params.id);
+  //   if (!film) {
+  //     return response.status(404).json({ message: 'Film not found' });
+  //   }
+  //   return response.json(film);
+  // }
+
 
   public async findByName({ params, response, request }: HttpContextContract) {
     const film = await Film.findBy('name', params.name);
@@ -29,8 +41,7 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Film not found' },
-        status: 404
+        data: { message: 'Film not found' }
       });
     }
     return this.generateResponse({ request, response, data: film });
@@ -43,8 +54,7 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Note must be between 0 and 5' },
-        status: 422
+        data: { message: 'Note must be between 0 and 5' }
       });
     }
 
@@ -58,8 +68,7 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Film not found' },
-        status: 404
+        data: { message: 'Film not found' }
       });
     }
 
@@ -76,11 +85,10 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Film not found' },
-        status: 404
+        data: { message: 'Film not found' }
       });
     }
     await film.delete();
-    return this.generateResponse({ request, response, data: { message: 'Film deleted' }, status: 200 });
+    return this.generateResponse({ request, response, data: { message: 'Film deleted' } });
   }
 }
