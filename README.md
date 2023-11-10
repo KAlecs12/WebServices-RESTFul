@@ -2,6 +2,29 @@
 
 Cette API permet de gérer une collection de films. Elle offre des fonctionnalités pour lister, rechercher, créer, mettre à jour et supprimer des films. Les réponses peuvent être retournées au format JSON ou XML, selon le header `Accept` envoyé dans la requête.
 
+## Installation
+
+### Prérequis
+
+Avant de commencer, assurez-vous que vous avez Node.js (version XYZ ou supérieure) et npm installés sur votre machine.
+
+Clonage du dépôt
+
+### Clonez le dépôt du projet en utilisant la commande suivante :
+
+`git clone [URL_DU_DEPOT]`
+
+### Installation des dépendances
+
+Après avoir cloné le dépôt, naviguez dans le dossier du projet et installez les dépendances nécessaires :
+`cd [NOM_DU_PROJET]
+npm install`
+
+Pour lancer le serveur Adonis, exécutez la commande suivante :
+`node ace serve --watch`
+
+Le serveur devrait maintenant être opérationnel sur http://localhost:3333.
+
 ## Routes
 
 ### Lister tous les films
