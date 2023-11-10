@@ -1,7 +1,23 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Film from "App/Models/Film";
+const xml2js = require('xml2js');
 
 export default class FilmsController {
+  public async generateResponse({ request, response, data }) {
+    const acceptHeader = request.header('Accept');
+
+    if (acceptHeader && acceptHeader.includes('application/xml')) {
+      const builder = new xml2js.Builder();
+      const xml = builder.buildObject(data);
+
+      response.header('Content-Type', 'application/xml');
+      return response.send(xml);
+    } else {
+      response.header('Content-Type', 'application/json');
+      return response.json(data);
+    }
+  }
+
   public async index({ response }: HttpContextContract) {
     const films = await Film.all();
     return response.json(films);
@@ -15,14 +31,13 @@ export default class FilmsController {
   //   return response.json(film);
   // }
 
+
   public async findByName({ params, response }: HttpContextContract) {
     const film = await Film.findBy('name', params.name);
+    if (film === null) {
+      return response.status(404).json({ message: 'Film not found' });
+    }
     return response.json(film);
-    // // const film = await Film.query().where('name', params.name).first();
-    // if (!film) {
-    //   return response.status(404).json({ message: 'Film not found' });
-    // }
-    // return response.json(film);
   }
 
   public async create({ request, response }: HttpContextContract) {
