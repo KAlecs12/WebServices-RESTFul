@@ -7,21 +7,22 @@ export default class FilmsController {
     return response.json(films);
   }
 
-  public async show({ params, response }: HttpContextContract) {
-    const film = await Film.find(params.id);
-    if (!film) {
-      return response.status(404).json({ message: 'Film not found' });
-    }
-    return response.json(film);
-  }
+  // public async show({ params, response }: HttpContextContract) {
+  //   const film = await Film.find(params.id);
+  //   if (!film) {
+  //     return response.status(404).json({ message: 'Film not found' });
+  //   }
+  //   return response.json(film);
+  // }
 
-  public async findByName({ request, response }: HttpContextContract) {
-    const name = request.input('name');
-    const film = await Film.query().where('name', name).first();
-    if (!film) {
-      return response.status(404).json({ message: 'Film not found' });
-    }
+  public async findByName({ params, response }: HttpContextContract) {
+    const film = await Film.findBy('name', params.name);
     return response.json(film);
+    // // const film = await Film.query().where('name', params.name).first();
+    // if (!film) {
+    //   return response.status(404).json({ message: 'Film not found' });
+    // }
+    // return response.json(film);
   }
 
   public async create({ request, response }: HttpContextContract) {
