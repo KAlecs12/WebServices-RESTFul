@@ -5,22 +5,26 @@ const xml2js = require('xml2js');
 export default class FilmsController {
 
   private async generateResponse({ request, response, data, status = 200 }) {
-    const contentType = request.is(['json', 'xml']);
+    const xmlBuilder = require('xmlbuilder');
+        const acceptHeader = request.header('Content-Type');
 
-    if (contentType === 'xml') {
-      const builder = new xml2js.Builder();
-      const xml = builder.buildObject(data);
-
-      response.header('Content-Type', 'application/xml');
-      response.status(status);
-      return response.send(xml);
-    } else {
-      // Par défaut, renvoie une réponse JSON
-      response.header('Content-Type', 'application/json');
-      response.status(status);
-      return response.json(data);
+        if (acceptHeader && acceptHeader.includes('application/xml')) {
+            const root = xmlBuilder.create('films');
+            data.forEach(film => {
+                const filmElement = root.ele('film', { id: film.id });
+                filmElement.ele('title', film.title);
+                filmElement.ele('description', film.description);
+                filmElement.ele('release', film.release);
+                filmElement.ele('note', film.note);
+                filmElement.ele('created_at', film.created_at);
+                filmElement.ele('updated_at', film.updated_at);
+            });
+            const xml = root.end({ pretty: true });
+            return response.header('Content-Type', 'application/xml').send(xml);
+        } else {
+            return response.header('Content-Type', 'application/json').json(data);
+        }
     }
-  }
 
   public async index({ response, request }: HttpContextContract) {
     const films = await Film.all();
