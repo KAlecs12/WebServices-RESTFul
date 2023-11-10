@@ -17,8 +17,8 @@ Clonage du dépôt
 ### Installation des dépendances
 
 Après avoir cloné le dépôt, naviguez dans le dossier du projet et installez les dépendances nécessaires :
-`cd [NOM_DU_PROJET]
-npm install`
+`cd [NOM_DU_PROJET]`
+`npm install`
 
 Pour lancer le serveur Adonis, exécutez la commande suivante :
 `node ace serve --watch`
