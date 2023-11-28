@@ -5,25 +5,36 @@ export default class FilmsController {
 
   private async generateResponse({ request, response, data, status = 200 }) {
     const xmlBuilder = require('xmlbuilder');
-        const acceptHeader = request.header('Content-Type');
+    const acceptHeader = request.header('Content-Type');
 
-        if (acceptHeader && acceptHeader.includes('application/xml')) {
-            const root = xmlBuilder.create('films');
-            data.forEach(film => {
-                const filmElement = root.ele('film', { id: film.id });
-                filmElement.ele('title', film.title);
-                filmElement.ele('description', film.description);
-                filmElement.ele('release', film.release);
-                filmElement.ele('note', film.note);
-                filmElement.ele('created_at', film.created_at);
-                filmElement.ele('updated_at', film.updated_at);
-            });
-            const xml = root.end({ pretty: true });
-            return response.header('Content-Type', 'application/xml').send(xml);
-        } else {
-            return response.header('Content-Type', 'application/json').json(data);
-        }
+    const buildXml = (films) => {
+      const root = xmlBuilder.create('films');
+      films.forEach(film => {
+        const filmElement = root.ele('film', { id: film.id });
+        filmElement.ele('name', film.name);
+        filmElement.ele('description', film.description);
+        filmElement.ele('release', film.releaseDate);
+        filmElement.ele('note', film.note);
+      });
+      return root.end({ pretty: true });
     }
+
+    if (acceptHeader && acceptHeader.includes('application/xml')) {
+      let xml;
+      if (Array.isArray(data)) {
+        xml = buildXml(data);
+      } else if (data.films && Array.isArray(data.films)) {
+        xml = buildXml(data.films);
+      } else {
+        // Si data est un objet unique (non paginé)
+        xml = buildXml([data]);
+      }
+
+      return response.header('Content-Type', 'application/xml').status(status).send(xml);
+    } else {
+      return response.header('Content-Type', 'application/json').status(status).json(data);
+    }
+  }
 
   public async index({ response, request }: HttpContextContract) {
     const page = request.input('page', 1);

@@ -20,13 +20,12 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
-Route.get('/films', 'FilmsController.index')
-Route.get('/films/id/:id', 'FilmsController.show');
-Route.get('/films/name/:name', 'FilmsController.findByName');
-Route.get('/films/description/:description', 'FilmsController.findByDescription');
-Route.post('/films', 'FilmsController.create');
-Route.patch('/films/:id', 'FilmsController.update');
-Route.delete('/films/:id', 'FilmsController.destroy');
+Route.group(() => {
+  Route.get('/', 'FilmsController.index')
+  Route.get('/id/:id', 'FilmsController.show');
+  Route.get('/name/:name', 'FilmsController.findByName');
+  Route.get('/description/:description', 'FilmsController.findByDescription');
+  Route.post('/', 'FilmsController.create');
+  Route.patch('/:id', 'FilmsController.update');
+  Route.delete('/:id', 'FilmsController.destroy');
+}).prefix('films')
