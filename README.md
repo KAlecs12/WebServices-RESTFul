@@ -20,14 +20,12 @@ Après avoir cloné le dépôt, naviguez dans le dossier du projet et installez 
 
 Pensez à bien compléter le fichier `.env` avec les informations de votre base de données :
 
-`
-DB_CONNECTION=mysql
-MYSQL_HOST=your_host
-MYSQL_USER=your_user
-MYSQL_PORT=3306
-MYSQL_PASSWORD=your_password
-MYSQL_DB_NAME=your_db_name
-`
+`DB_CONNECTION=mysql`
+`MYSQL_HOST=your_host`
+`MYSQL_USER=your_user`
+`MYSQL_PORT=3306`
+`MYSQL_PASSWORD=your_password`
+`MYSQL_DB_NAME=your_db_name`
 
 Pour lancer le serveur Adonis, exécutez la commande suivante :
 `node ace serve --watch`
