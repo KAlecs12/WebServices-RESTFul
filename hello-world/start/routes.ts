@@ -33,3 +33,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/:name', 'CategoriesController.getCategoryMovies');
 }).prefix('category')
+
+Route.group(() => {
+  Route.get('/', 'DocsController.getDocumentation');
+}).prefix('doc')

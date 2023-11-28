@@ -30,8 +30,8 @@ export default class Fixtures extends BaseCommand {
 
   public async run() {
     const { MovieFactory } = await import('Database/Factories/FilmFactory')
-    await CategoryFactory.createMany(3);
-    await MovieFactory.createMany(20);
+    await CategoryFactory.createMany(5);
+    await MovieFactory.createMany(100);
     this.logger.info('======== BDD done with fake movies ! ========');
   }
 }

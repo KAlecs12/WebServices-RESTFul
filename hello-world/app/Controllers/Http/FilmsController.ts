@@ -7,29 +7,42 @@ export default class FilmsController {
     const xmlBuilder = require('xmlbuilder');
     const acceptHeader = request.header('Content-Type');
 
-    const buildXml = (films) => {
-      const root = xmlBuilder.create('films');
-      films.forEach(film => {
-        const filmElement = root.ele('film', { id: film.id });
-        filmElement.ele('name', film.name);
-        filmElement.ele('description', film.description);
-        filmElement.ele('release', film.releaseDate);
-        filmElement.ele('note', film.note);
-      });
-      return root.end({ pretty: true });
-    }
+    const buildXml = (data) => {
+      const root = xmlBuilder.create('response');
 
-    if (acceptHeader && acceptHeader.includes('application/xml')) {
-      let xml;
-      if (Array.isArray(data)) {
-        xml = buildXml(data);
-      } else if (data.films && Array.isArray(data.films)) {
-        xml = buildXml(data.films);
+      if (data.films && Array.isArray(data.films)) {
+        // Handling paginated film data
+        const paginationInfo = root.ele('pagination');
+        paginationInfo.ele('total', data.total);
+        paginationInfo.ele('perPage', data.perPage);
+        paginationInfo.ele('currentPage', data.currentPage);
+        paginationInfo.ele('lastPage', data.lastPage);
+
+        const filmsElement = root.ele('films');
+        data.films.forEach(film => {
+          const filmElement = filmsElement.ele('film', { id: film.id });
+          filmElement.ele('name', film.name);
+          filmElement.ele('description', film.description);
+          filmElement.ele('release', film.releaseDate);
+          filmElement.ele('note', film.note);
+        });
+      } else if (data.message) {
+        // Handling an error message
+        root.ele('error', data.message);
       } else {
-        // Si data est un objet unique (non paginé)
-        xml = buildXml([data]);
+        // Handling a single film object
+        const filmElement = root.ele('film', { id: data.id });
+        filmElement.ele('name', data.name);
+        filmElement.ele('description', data.description);
+        filmElement.ele('release', data.releaseDate);
+        filmElement.ele('note', data.note);
       }
 
+      return root.end({ pretty: true });
+    };
+
+    if (acceptHeader && acceptHeader.includes('application/xml')) {
+      let xml = buildXml(data);
       return response.header('Content-Type', 'application/xml').status(status).send(xml);
     } else {
       return response.header('Content-Type', 'application/json').status(status).json(data);
