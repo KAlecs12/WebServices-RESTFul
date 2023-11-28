@@ -28,4 +28,8 @@ Route.group(() => {
   Route.post('/', 'FilmsController.create');
   Route.patch('/:id', 'FilmsController.update');
   Route.delete('/:id', 'FilmsController.destroy');
-}).prefix('films')
+}).prefix('film')
+
+Route.group(() => {
+  Route.get('/:name', 'CategoriesController.getCategoryMovies');
+}).prefix('category')

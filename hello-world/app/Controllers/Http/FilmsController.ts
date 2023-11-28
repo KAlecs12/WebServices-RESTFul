@@ -61,7 +61,8 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'No films found with the given name' }
+        data: { message: 'No films found with the given name' },
+        status: 404
       });
     }
 
@@ -79,7 +80,8 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'No films found with the given description' }
+        data: { message: 'No films found with the given description' },
+        status: 404
       });
     }
 
@@ -101,7 +103,8 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Note must be between 0 and 5' }
+        data: { message: 'Note must be between 0 and 5' },
+        status: 406
       });
     }
 
@@ -115,7 +118,8 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Film not found' }
+        data: { message: 'Film not found' },
+        status: 404
       });
     }
 
@@ -132,7 +136,8 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Film not found' }
+        data: { message: 'Film not found' },
+        status: 404
       });
     }
     await film.delete();
