@@ -25,7 +25,8 @@ Route.get('/', async () => {
 })
 Route.get('/films', 'FilmsController.index')
 Route.get('/films/id/:id', 'FilmsController.show');
-Route.get('/films/:name', 'FilmsController.findByName');
+Route.get('/films/name/:name', 'FilmsController.findByName');
+Route.get('/films/description/:description', 'FilmsController.findByDescription');
 Route.post('/films', 'FilmsController.create');
 Route.patch('/films/:id', 'FilmsController.update');
 Route.delete('/films/:id', 'FilmsController.destroy');

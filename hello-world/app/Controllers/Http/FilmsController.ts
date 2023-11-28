@@ -1,7 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Film from "App/Models/Film";
-const xml2js = require('xml2js');
-
+require('xml2js');
 export default class FilmsController {
 
   private async generateResponse({ request, response, data, status = 200 }) {
@@ -27,16 +26,22 @@ export default class FilmsController {
     }
 
   public async index({ response, request }: HttpContextContract) {
-    const films = await Film.all();
-    return this.generateResponse({ request, response, data: films });  }
+    const page = request.input('page', 1);
+    const perPage = 10;
 
-  // public async show({ params, response }: HttpContextContract) {
-  //   const film = await Film.find(params.id);
-  //   if (!film) {
-  //     return response.status(404).json({ message: 'Film not found' });
-  //   }
-  //   return response.json(film);
-  // }
+    const paginatedFilms = await Film.query().paginate(page, perPage);
+
+    const filmsData = {
+      total: paginatedFilms.total,
+      perPage: paginatedFilms.perPage,
+      currentPage: paginatedFilms.currentPage,
+      lastPage: paginatedFilms.lastPage,
+      films: paginatedFilms.toJSON().data
+    };
+
+    return this.generateResponse({ request, response, data: filmsData });
+  }
+
 
 
   public async findByName({ params, response, request }: HttpContextContract) {
@@ -45,10 +50,25 @@ export default class FilmsController {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Film not found' }
+        data: { message: 'Name of the film not found' }
       });
     }
     return this.generateResponse({ request, response, data: film });
+  }
+
+  async findByDescription({ params, response, request }) {
+    // Recherche le film par description
+    const films = await Film.query()
+      .where('description', 'LIKE', `%${params.description}%`)
+      .first();
+    if (!films) {
+      return this.generateResponse({
+        request,
+        response,
+        data: { message: 'No films found with the given description' }
+      });
+    }
+    return this.generateResponse({ request, response, data: films });
   }
 
   public async create({ request, response }: HttpContextContract) {
