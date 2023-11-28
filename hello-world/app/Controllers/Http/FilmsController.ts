@@ -42,25 +42,28 @@ export default class FilmsController {
     return this.generateResponse({ request, response, data: filmsData });
   }
 
-
-
   public async findByName({ params, response, request }: HttpContextContract) {
+
     const film = await Film.findBy('name', params.name);
+
     if (!film) {
       return this.generateResponse({
         request,
         response,
-        data: { message: 'Name of the film not found' }
+        data: { message: 'No films found with the given name' }
       });
     }
+
     return this.generateResponse({ request, response, data: film });
   }
 
   async findByDescription({ params, response, request }) {
-    // Recherche le film par description
+    const page = request.input('page', 1);
+    const perPage = 10;
     const films = await Film.query()
       .where('description', 'LIKE', `%${params.description}%`)
-      .first();
+      .paginate(page, perPage);
+
     if (!films) {
       return this.generateResponse({
         request,
@@ -68,7 +71,16 @@ export default class FilmsController {
         data: { message: 'No films found with the given description' }
       });
     }
-    return this.generateResponse({ request, response, data: films });
+
+    const filmsData = {
+      total: films.total,
+      perPage: films.perPage,
+      currentPage: films.currentPage,
+      lastPage: films.lastPage,
+      films: films.toJSON().data
+    };
+
+    return this.generateResponse({ request, response, data: filmsData });
   }
 
   public async create({ request, response }: HttpContextContract) {
