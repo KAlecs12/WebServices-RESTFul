@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuid } from 'uuid';
 
 export default class Film extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string = uuid()
 
   @column()
   public name: string
