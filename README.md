@@ -27,8 +27,14 @@ Pensez à bien compléter le fichier `.env` avec les informations de votre base 
 - `MYSQL_PASSWORD=your_password`
 - `MYSQL_DB_NAME=your_db_name`
 
-Pour lancer le serveur Adonis, exécutez la commande suivante :
-`node ace serve --watch`
+Pour lancer le serveur Adonis, exécutez les commandes suivante :
+
+`node ace migration:fresh`
+`node ace migration:run`
+`node ace fill:database`
+
+`npm run dev`
+
 
 Le serveur devrait maintenant être opérationnel sur http://localhost:3333.
 
