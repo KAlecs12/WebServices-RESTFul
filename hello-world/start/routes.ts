@@ -25,9 +25,9 @@ Route.group(() => {
   Route.get('/id/:id', 'FilmsController.show');
   Route.get('/name/:name', 'FilmsController.findByName');
   Route.get('/description/:description', 'FilmsController.findByDescription');
-  Route.post('/', 'FilmsController.create');
-  Route.patch('/:id', 'FilmsController.update');
-  Route.delete('/:id', 'FilmsController.destroy');
+  Route.post('/', 'FilmsController.create').middleware(["ensureAdmin"]);
+  Route.patch('/:id', 'FilmsController.update').middleware(["ensureAdmin"]);
+  Route.delete('/:id', 'FilmsController.destroy').middleware(["ensureAdmin"]);
 }).prefix('film').middleware(["auth"])
 
 Route.group(() => {

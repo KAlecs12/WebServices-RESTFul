@@ -43,4 +43,5 @@ Server.middleware.register([
 Server.middleware.registerNamed({
   auth: () => import('App/Middleware/Auth'),
   throttle: () => import('@adonisjs/limiter/build/throttle'),
+  ensureAdmin: () => import('App/Middleware/EnsureAdmin'),
 })
