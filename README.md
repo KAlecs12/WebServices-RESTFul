@@ -29,12 +29,15 @@ Pensez à bien compléter le fichier `.env` avec les informations de votre base 
 
 Pour lancer le serveur Adonis, exécutez les commandes suivante :
 
-`node ace migration:fresh`
-`node ace migration:run`
-`node ace fill:database`
-
 `npm run dev`
 
+
+Puis remplisser la base de données :
+
+- `node ace migration:fresh`
+- `node ace migration:run`
+- `node ace fill:database`
+- `node ace db:seed`
 
 Le serveur devrait maintenant être opérationnel sur http://localhost:3333.
 
@@ -42,6 +45,8 @@ Le serveur devrait maintenant être opérationnel sur http://localhost:3333.
 
 - **Endpoint** : `GET /doc/`
 - **Description** : Affiche toutes les informations concernant toutes les routes de l'API ainsi que leurs fonctionnalités.
+
+_(les routes concernant l'authentification n'y sont pas renseignés car ce n'était pas demandé)_
 
 ## Gestion des Réponses en JSON et XML
 
