@@ -1,5 +1,6 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 import Roles from "App/Enums/Roles";
+import Status from "App/Enums/Status";
 
 export default class extends BaseSchema {
   protected tableName = 'users'
@@ -10,7 +11,7 @@ export default class extends BaseSchema {
       table.enum('role', Object.values(Roles)).notNullable().defaultTo(Roles.ROLE_USER)
       table.string('email', 255).notNullable().unique()
       table.string('password', 180).notNullable()
-      table.string('remember_me_token').nullable()
+      table.enum('status', Object.values(Status)).notNullable().defaultTo(Status.open)
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

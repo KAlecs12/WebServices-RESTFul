@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
 import Roles from "App/Enums/Roles";
+import Status from "App/Enums/Status";
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -13,11 +14,11 @@ export default class User extends BaseModel {
   @column()
   public role: Roles
 
+  @column()
+  public status: Status
+
   @column({ serializeAs: null })
   public password: string
-
-  @column()
-  public rememberMeToken: string | null
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
