@@ -28,12 +28,21 @@ Route.group(() => {
   Route.post('/', 'FilmsController.create');
   Route.patch('/:id', 'FilmsController.update');
   Route.delete('/:id', 'FilmsController.destroy');
-}).prefix('film')
+}).prefix('film').middleware(["auth"])
 
 Route.group(() => {
   Route.get('/:name', 'CategoriesController.getCategoryMovies');
-}).prefix('category')
+}).prefix('category').middleware(["auth"])
 
 Route.group(() => {
   Route.get('/', 'DocsController.getDocumentation');
 }).prefix('doc')
+
+Route.group(() => {
+  Route.post('/account', 'AuthController.register');
+  Route.get('account/:uid', 'AuthController.showUser').middleware(["auth"])
+  Route.put('account/:uid', 'AuthController.editUser').middleware(["auth"])
+  Route.post('/token', 'AuthController.login');
+  Route.post('/refresh-token/:refreshToken/token', 'AuthController.refresh');
+  Route.get('/validate/:accessToken', 'AuthController.validate');
+}).prefix('api')

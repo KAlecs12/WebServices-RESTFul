@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@adonisjs/lucid": "^18.4.2"
+    "@adonisjs/auth": "^8.2.3",
+    "@adonisjs/lucid": "^18.4.2",
+    "phc-argon2": "^1.1.4"
   }
 }
