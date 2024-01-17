@@ -15,7 +15,7 @@ Avant de commencer, assurez-vous que vous avez Node.js (version XYZ ou supérieu
 ### Installation des dépendances
 
 Après avoir cloné le dépôt, naviguez dans le dossier du projet et installez les dépendances nécessaires :
-`cd [NOM_DU_PROJET]`
+`cd hello-world`
 `npm install`
 
 Pensez à bien compléter le fichier `.env` avec les informations de votre base de données :
