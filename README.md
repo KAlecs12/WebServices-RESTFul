@@ -46,7 +46,7 @@ Le serveur devrait maintenant être opérationnel sur http://localhost:3333.
 - **Endpoint** : `GET /doc/`
 - **Description** : Affiche toutes les informations concernant toutes les routes de l'API ainsi que leurs fonctionnalités.
 
-_(les routes concernant l'authentification n'y sont pas renseignés car ce n'était pas demandé)_
+_(les routes concernant l'authentification n'y sont pas renseignées car ce n'était pas demandé)_
 
 ## Gestion des Réponses en JSON et XML
 
